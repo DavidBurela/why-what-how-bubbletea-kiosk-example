@@ -18,7 +18,13 @@ See [business.index.md](business/business.index.md) for full navigation.
 
 ## Solution
 
-_To be populated during Phase 3._
+- [Solution Context](solution/solution-context.md) — system boundary, external systems, and architecture narrative
+- [Applications Context](solution/applications/applications-context.md) — cross-application integration patterns
+- [Kiosk TUI (KSK)](solution/applications/kiosk-tui/kiosk-tui.index.md) — customer-facing ordering terminal
+- [Order API (API)](solution/applications/order-api/order-api.index.md) — central backend service
+- [Kitchen Display (KDS)](solution/applications/kitchen-display/kitchen-display.index.md) — staff-facing order display
+
+See [solution.index.md](solution/solution.index.md) for full navigation and scenario→flow traceability.
 
 ## Standards
 
@@ -26,7 +32,11 @@ _To be populated._
 
 ## Decisions
 
-_To be populated._
+- [ADR-0001 — .NET Platform](decisions/ADR-0001-solution-dotnet-platform.md)
+- [ADR-0002 — In-Memory Storage](decisions/ADR-0002-application-order-api-in-memory-storage.md)
+- [ADR-0003 — REST/HTTP Polling](decisions/ADR-0003-solution-rest-http-polling.md)
+
+See [decisions.index.md](decisions/decisions.index.md) for the full catalogue.
 
 ## Framework
 
