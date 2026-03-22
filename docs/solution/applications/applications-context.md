@@ -1,5 +1,7 @@
 # Applications Context
 
+![Containers diagram](../c4-model/export/structurizr-1-Containers.png)
+
 ## Integration pattern
 
 All applications communicate via REST/HTTP. There is no message broker, no WebSocket infrastructure, and no shared database. Each application is a standalone .NET process.

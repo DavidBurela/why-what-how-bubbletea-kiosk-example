@@ -42,3 +42,5 @@ This flow supports the following business scenarios:
 ## C4 dynamic view
 
 View key: `FLW-API-001-process-order-and-payment` in [workspace.dsl](../../../c4-model/workspace.dsl).
+
+![Process order and payment — dynamic view](../../../c4-model/export/structurizr-1-FLW-API-001-process-order-and-payment.png)

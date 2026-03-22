@@ -1,5 +1,7 @@
 # Solution Context
 
+![System Context diagram](c4-model/export/structurizr-1-SystemContext.png)
+
 ## System boundary
 
 The Compile & Sip Kiosk System encompasses everything needed to take a customer's order, process payment, and display the order to kitchen staff. It consists of three applications: a customer-facing ordering terminal (Kiosk TUI), a central backend (Order API), and a staff-facing kitchen display.

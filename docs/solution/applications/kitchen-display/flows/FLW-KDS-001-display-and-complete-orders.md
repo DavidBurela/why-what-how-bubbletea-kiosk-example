@@ -36,3 +36,5 @@ This flow supports the following business scenario:
 ## C4 dynamic view
 
 View key: `FLW-KDS-001-display-and-complete-orders` in [workspace.dsl](../../../c4-model/workspace.dsl).
+
+![Display and complete orders — dynamic view](../../../c4-model/export/structurizr-1-FLW-KDS-001-display-and-complete-orders.png)
