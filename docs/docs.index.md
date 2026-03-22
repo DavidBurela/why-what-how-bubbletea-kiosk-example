@@ -1,14 +1,20 @@
 # Docs Index
 
-Documentation for the XYZ project.
+Documentation for the Compile & Sip bubble tea kiosk project.
 
 ## Business
 
-_To be populated during Discovery._
+- [Business Context](business/business-context.md) — problem framing, stakeholders, and project identity
+- [Vision](business/vision.md) — aspirational direction
+- [Outcomes](business/outcomes.md) — MVP definition and success criteria
+- [Scope](business/scope.md) — in-scope and out-of-scope boundaries
+- [Assumptions and Risks](business/assumptions-and-risks.md) — assumptions to validate and known risks
+
+See [business.index.md](business/business.index.md) for full navigation.
 
 ## Solution
 
-_To be populated during Discovery._
+_To be populated during Phase 3._
 
 ## Standards
 
