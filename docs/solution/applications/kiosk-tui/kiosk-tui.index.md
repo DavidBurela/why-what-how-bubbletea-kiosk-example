@@ -7,7 +7,8 @@ Customer-facing self-service ordering terminal. Displays the drink menu, takes c
 ## Navigation
 
 - [App Context](app-context.md) — technology, capabilities, and dependencies
-- Flows — _to be added in Phase 4_
+- Flows
+  - [FLW-KSK-001 — Customer Places Order](flows/FLW-KSK-001-customer-places-order.md)
 
 ## Source code
 

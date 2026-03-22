@@ -7,7 +7,8 @@ Central backend service. Receives orders from the kiosk, stores them in memory, 
 ## Navigation
 
 - [App Context](app-context.md) — technology, capabilities, and dependencies
-- Flows — _to be added in Phase 4_
+- Flows
+  - [FLW-API-001 — Process Order and Payment](flows/FLW-API-001-process-order-and-payment.md)
 
 ## Source code
 

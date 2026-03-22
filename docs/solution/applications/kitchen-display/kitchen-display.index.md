@@ -7,7 +7,8 @@ Staff-facing display showing active orders with full customisation details. Kitc
 ## Navigation
 
 - [App Context](app-context.md) — technology, capabilities, and dependencies
-- Flows — _to be added in Phase 4_
+- Flows
+  - [FLW-KDS-001 — Display and Complete Orders](flows/FLW-KDS-001-display-and-complete-orders.md)
 
 ## Source code
 

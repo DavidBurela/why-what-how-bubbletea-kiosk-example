@@ -1,0 +1,421 @@
+{
+  "configuration" : { },
+  "description" : "Description",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2026-03-22T04:03:50Z",
+  "model" : {
+    "people" : [ {
+      "description" : "Orders customised bubble tea drinks via the self-service kiosk.",
+      "id" : "1",
+      "name" : "Customer",
+      "properties" : {
+        "structurizr.dsl.identifier" : "customer"
+      },
+      "relationships" : [ {
+        "description" : "Places orders and pays",
+        "destinationId" : "4",
+        "id" : "8",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "Terminal UI"
+      }, {
+        "description" : "Places orders and pays",
+        "destinationId" : "3",
+        "id" : "9",
+        "linkedRelationshipId" : "8",
+        "sourceId" : "1",
+        "technology" : "Terminal UI"
+      } ],
+      "tags" : "Element,Person,Customer"
+    }, {
+      "description" : "Prepares drinks using the kitchen display and calls out order numbers.",
+      "id" : "2",
+      "name" : "Kitchen Staff",
+      "properties" : {
+        "structurizr.dsl.identifier" : "kitchenStaff"
+      },
+      "relationships" : [ {
+        "description" : "Views active orders and marks them complete",
+        "destinationId" : "6",
+        "id" : "10",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "Terminal UI"
+      }, {
+        "description" : "Views active orders and marks them complete",
+        "destinationId" : "3",
+        "id" : "11",
+        "linkedRelationshipId" : "10",
+        "sourceId" : "2",
+        "technology" : "Terminal UI"
+      } ],
+      "tags" : "Element,Person,Kitchen Staff"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "Customer-facing self-service ordering terminal. Displays menu, takes customisation, initiates payment.",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Kiosk TUI",
+        "properties" : {
+          "structurizr.dsl.identifier" : "kioskTui"
+        },
+        "relationships" : [ {
+          "description" : "Submits orders and initiates payment",
+          "destinationId" : "5",
+          "id" : "12",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container,Application",
+        "technology" : ".NET Console App (Terminal UI)"
+      }, {
+        "description" : "Central backend. Receives orders, stores state in memory, calls payment gateway, serves orders to kitchen display.",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "Order API",
+        "properties" : {
+          "structurizr.dsl.identifier" : "orderApi"
+        },
+        "relationships" : [ {
+          "description" : "Processes card payments",
+          "destinationId" : "7",
+          "id" : "13",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container,Application",
+        "technology" : "ASP.NET Core Minimal API"
+      }, {
+        "description" : "Staff-facing display showing active orders with full customisation details. Staff mark orders as complete.",
+        "documentation" : { },
+        "id" : "6",
+        "name" : "Kitchen Display",
+        "properties" : {
+          "structurizr.dsl.identifier" : "kitchenDisplay"
+        },
+        "relationships" : [ {
+          "description" : "Polls for active orders and marks orders complete",
+          "destinationId" : "5",
+          "id" : "15",
+          "sourceId" : "6",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container,Application",
+        "technology" : ".NET Console App"
+      } ],
+      "description" : "Self-service ordering, payment processing, and kitchen display for Compile & Sip.",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "Compile & Sip Kiosk System",
+      "properties" : {
+        "structurizr.dsl.identifier" : "kioskSystem"
+      },
+      "relationships" : [ {
+        "description" : "Processes card payments",
+        "destinationId" : "7",
+        "id" : "14",
+        "linkedRelationshipId" : "13",
+        "sourceId" : "3",
+        "technology" : "HTTP"
+      } ],
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Processes card payments (simulated external provider).",
+      "documentation" : { },
+      "id" : "7",
+      "name" : "Payment Gateway",
+      "properties" : {
+        "structurizr.dsl.identifier" : "paymentGateway"
+      },
+      "tags" : "Element,Software System,Existing System"
+    } ]
+  },
+  "name" : "Name",
+  "properties" : {
+    "structurizr.inspection.error" : "3",
+    "structurizr.dsl" : "d29ya3NwYWNlIHsKCiAgICBtb2RlbCB7CiAgICAgICAgLy8gUGVyc29ucwogICAgICAgIGN1c3RvbWVyID0gcGVyc29uICJDdXN0b21lciIgIk9yZGVycyBjdXN0b21pc2VkIGJ1YmJsZSB0ZWEgZHJpbmtzIHZpYSB0aGUgc2VsZi1zZXJ2aWNlIGtpb3NrLiIgIkN1c3RvbWVyIgogICAgICAgIGtpdGNoZW5TdGFmZiA9IHBlcnNvbiAiS2l0Y2hlbiBTdGFmZiIgIlByZXBhcmVzIGRyaW5rcyB1c2luZyB0aGUga2l0Y2hlbiBkaXNwbGF5IGFuZCBjYWxscyBvdXQgb3JkZXIgbnVtYmVycy4iICJLaXRjaGVuIFN0YWZmIgoKICAgICAgICAvLyBTb2Z0d2FyZSBTeXN0ZW1zCiAgICAgICAga2lvc2tTeXN0ZW0gPSBzb2Z0d2FyZVN5c3RlbSAiQ29tcGlsZSAmIFNpcCBLaW9zayBTeXN0ZW0iICJTZWxmLXNlcnZpY2Ugb3JkZXJpbmcsIHBheW1lbnQgcHJvY2Vzc2luZywgYW5kIGtpdGNoZW4gZGlzcGxheSBmb3IgQ29tcGlsZSAmIFNpcC4iIHsKICAgICAgICAgICAga2lvc2tUdWkgPSBjb250YWluZXIgIktpb3NrIFRVSSIgIkN1c3RvbWVyLWZhY2luZyBzZWxmLXNlcnZpY2Ugb3JkZXJpbmcgdGVybWluYWwuIERpc3BsYXlzIG1lbnUsIHRha2VzIGN1c3RvbWlzYXRpb24sIGluaXRpYXRlcyBwYXltZW50LiIgIi5ORVQgQ29uc29sZSBBcHAgKFRlcm1pbmFsIFVJKSIgIkFwcGxpY2F0aW9uIgogICAgICAgICAgICBvcmRlckFwaSA9IGNvbnRhaW5lciAiT3JkZXIgQVBJIiAiQ2VudHJhbCBiYWNrZW5kLiBSZWNlaXZlcyBvcmRlcnMsIHN0b3JlcyBzdGF0ZSBpbiBtZW1vcnksIGNhbGxzIHBheW1lbnQgZ2F0ZXdheSwgc2VydmVzIG9yZGVycyB0byBraXRjaGVuIGRpc3BsYXkuIiAiQVNQLk5FVCBDb3JlIE1pbmltYWwgQVBJIiAiQXBwbGljYXRpb24iCiAgICAgICAgICAgIGtpdGNoZW5EaXNwbGF5ID0gY29udGFpbmVyICJLaXRjaGVuIERpc3BsYXkiICJTdGFmZi1mYWNpbmcgZGlzcGxheSBzaG93aW5nIGFjdGl2ZSBvcmRlcnMgd2l0aCBmdWxsIGN1c3RvbWlzYXRpb24gZGV0YWlscy4gU3RhZmYgbWFyayBvcmRlcnMgYXMgY29tcGxldGUuIiAiLk5FVCBDb25zb2xlIEFwcCIgIkFwcGxpY2F0aW9uIgogICAgICAgIH0KCiAgICAgICAgcGF5bWVudEdhdGV3YXkgPSBzb2Z0d2FyZVN5c3RlbSAiUGF5bWVudCBHYXRld2F5IiAiUHJvY2Vzc2VzIGNhcmQgcGF5bWVudHMgKHNpbXVsYXRlZCBleHRlcm5hbCBwcm92aWRlcikuIiAiRXhpc3RpbmcgU3lzdGVtIgoKICAgICAgICAvLyBSZWxhdGlvbnNoaXBzCiAgICAgICAgY3VzdG9tZXIgLT4ga2lvc2tUdWkgIlBsYWNlcyBvcmRlcnMgYW5kIHBheXMiICJUZXJtaW5hbCBVSSIKICAgICAgICBraXRjaGVuU3RhZmYgLT4ga2l0Y2hlbkRpc3BsYXkgIlZpZXdzIGFjdGl2ZSBvcmRlcnMgYW5kIG1hcmtzIHRoZW0gY29tcGxldGUiICJUZXJtaW5hbCBVSSIKICAgICAgICBraW9za1R1aSAtPiBvcmRlckFwaSAiU3VibWl0cyBvcmRlcnMgYW5kIGluaXRpYXRlcyBwYXltZW50IiAiSFRUUCIKICAgICAgICBvcmRlckFwaSAtPiBwYXltZW50R2F0ZXdheSAiUHJvY2Vzc2VzIGNhcmQgcGF5bWVudHMiICJIVFRQIgogICAgICAgIGtpdGNoZW5EaXNwbGF5IC0+IG9yZGVyQXBpICJQb2xscyBmb3IgYWN0aXZlIG9yZGVycyBhbmQgbWFya3Mgb3JkZXJzIGNvbXBsZXRlIiAiSFRUUCIKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgLy8gU3lzdGVtIENvbnRleHQKICAgICAgICBzeXN0ZW1Db250ZXh0IGtpb3NrU3lzdGVtICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgfQoKICAgICAgICAvLyBDb250YWluZXIgdmlldwogICAgICAgIGNvbnRhaW5lciBraW9za1N5c3RlbSAiQ29udGFpbmVycyIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b0xheW91dAogICAgICAgIH0KCiAgICAgICAgLy8gRHluYW1pYyB2aWV3OiBGTFctS1NLLTAwMSDigJQgQ3VzdG9tZXIgUGxhY2VzIE9yZGVyCiAgICAgICAgZHluYW1pYyBraW9za1N5c3RlbSAiRkxXLUtTSy0wMDEtY3VzdG9tZXItcGxhY2VzLW9yZGVyIiAiQ3VzdG9tZXIgYnJvd3NlcyBtZW51LCBjdXN0b21pc2VzIGRyaW5rLCBhbmQgcGF5cyB2aWEgdGhlIGtpb3NrLiIgewogICAgICAgICAgICBjdXN0b21lciAtPiBraW9za1R1aSAiQnJvd3NlcyBtZW51IGFuZCBzZWxlY3RzIGRyaW5rIgogICAgICAgICAgICBjdXN0b21lciAtPiBraW9za1R1aSAiQ3VzdG9taXNlcyBkcmluayBvcHRpb25zIgogICAgICAgICAgICBjdXN0b21lciAtPiBraW9za1R1aSAiUmV2aWV3cyBvcmRlciBhbmQgY29uZmlybXMiCiAgICAgICAgICAgIGtpb3NrVHVpIC0+IG9yZGVyQXBpICJTdWJtaXRzIG9yZGVyIHdpdGggY3VzdG9taXNhdGlvbnMiCiAgICAgICAgICAgIG9yZGVyQXBpIC0+IHBheW1lbnRHYXRld2F5ICJQcm9jZXNzZXMgY2FyZCBwYXltZW50IgogICAgICAgICAgICBvcmRlckFwaSAtPiBraW9za1R1aSAiUmV0dXJucyBvcmRlciBudW1iZXIgKG9yIHBheW1lbnQgZmFpbHVyZSkiCiAgICAgICAgICAgIGF1dG9MYXlvdXQKICAgICAgICB9CgogICAgICAgIC8vIER5bmFtaWMgdmlldzogRkxXLUFQSS0wMDEg4oCUIFByb2Nlc3MgT3JkZXIgYW5kIFBheW1lbnQKICAgICAgICBkeW5hbWljIGtpb3NrU3lzdGVtICJGTFctQVBJLTAwMS1wcm9jZXNzLW9yZGVyLWFuZC1wYXltZW50IiAiT3JkZXIgQVBJIHJlY2VpdmVzIG9yZGVyIGZyb20ga2lvc2ssIGNhbGxzIHBheW1lbnQgZ2F0ZXdheSwgYW5kIHN0b3JlcyByZXN1bHQuIiB7CiAgICAgICAgICAgIGtpb3NrVHVpIC0+IG9yZGVyQXBpICJTZW5kcyBvcmRlciB3aXRoIGRyaW5rIGFuZCBjdXN0b21pc2F0aW9ucyIKICAgICAgICAgICAgb3JkZXJBcGkgLT4gcGF5bWVudEdhdGV3YXkgIkNhbGxzIHBheW1lbnQgZ2F0ZXdheSB0byBwcm9jZXNzIGNhcmQiCiAgICAgICAgICAgIHBheW1lbnRHYXRld2F5IC0+IG9yZGVyQXBpICJSZXR1cm5zIHBheW1lbnQgcmVzdWx0IgogICAgICAgICAgICBvcmRlckFwaSAtPiBraW9za1R1aSAiUmV0dXJucyBvcmRlciBudW1iZXIgb3IgcGF5bWVudCBmYWlsdXJlIgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgfQoKICAgICAgICAvLyBEeW5hbWljIHZpZXc6IEZMVy1LRFMtMDAxIOKAlCBEaXNwbGF5IGFuZCBDb21wbGV0ZSBPcmRlcnMKICAgICAgICBkeW5hbWljIGtpb3NrU3lzdGVtICJGTFctS0RTLTAwMS1kaXNwbGF5LWFuZC1jb21wbGV0ZS1vcmRlcnMiICJLaXRjaGVuIERpc3BsYXkgcG9sbHMgZm9yIGFjdGl2ZSBvcmRlcnMgYW5kIHN0YWZmIG1hcmsgdGhlbSBjb21wbGV0ZS4iIHsKICAgICAgICAgICAga2l0Y2hlbkRpc3BsYXkgLT4gb3JkZXJBcGkgIlBvbGxzIGZvciBhY3RpdmUgb3JkZXJzIgogICAgICAgICAgICBvcmRlckFwaSAtPiBraXRjaGVuRGlzcGxheSAiUmV0dXJucyBhY3RpdmUgb3JkZXJzIHdpdGggZGV0YWlscyIKICAgICAgICAgICAga2l0Y2hlblN0YWZmIC0+IGtpdGNoZW5EaXNwbGF5ICJNYXJrcyBvcmRlciBhcyBjb21wbGV0ZSIKICAgICAgICAgICAga2l0Y2hlbkRpc3BsYXkgLT4gb3JkZXJBcGkgIlNlbmRzIG9yZGVyIGNvbXBsZXRpb24gdXBkYXRlIgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJQZXJzb24iIHsKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIGZvbnRTaXplIDIyCiAgICAgICAgICAgICAgICBzaGFwZSBQZXJzb24KICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDdXN0b21lciIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMDg0MjdiCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiS2l0Y2hlbiBTdGFmZiIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjNTQ2ZTdhCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiU29mdHdhcmUgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMxMTY4YmQKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJFeGlzdGluZyBTeXN0ZW0iIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzk5OTk5OQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgIH0KCn0=",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "0"
+  },
+  "views" : {
+    "configuration" : {
+      "lastSavedView" : "SystemContext",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#08427b",
+          "tag" : "Customer"
+        }, {
+          "background" : "#999999",
+          "color" : "#ffffff",
+          "tag" : "Existing System"
+        }, {
+          "background" : "#546e7a",
+          "tag" : "Kitchen Staff"
+        }, {
+          "color" : "#ffffff",
+          "fontSize" : 22,
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: Compile & Sip Kiosk System",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "10"
+      }, {
+        "id" : "12"
+      }, {
+        "id" : "13"
+      }, {
+        "id" : "15"
+      }, {
+        "id" : "8"
+      } ],
+      "softwareSystemId" : "3"
+    } ],
+    "dynamicViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Customer browses menu, customises drink, and pays via the kiosk.",
+      "elementId" : "3",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "FLW-KSK-001-customer-places-order",
+      "name" : "Dynamic View: Compile & Sip Kiosk System",
+      "order" : 3,
+      "relationships" : [ {
+        "description" : "Browses menu and selects drink",
+        "id" : "8",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "Customises drink options",
+        "id" : "8",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "Reviews order and confirms",
+        "id" : "8",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "Submits order with customisations",
+        "id" : "12",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "Processes card payment",
+        "id" : "13",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "Returns order number (or payment failure)",
+        "id" : "12",
+        "order" : "6",
+        "response" : true
+      } ]
+    }, {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Order API receives order from kiosk, calls payment gateway, and stores result.",
+      "elementId" : "3",
+      "elements" : [ {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "FLW-API-001-process-order-and-payment",
+      "name" : "Dynamic View: Compile & Sip Kiosk System",
+      "order" : 4,
+      "relationships" : [ {
+        "description" : "Sends order with drink and customisations",
+        "id" : "12",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "Calls payment gateway to process card",
+        "id" : "13",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "Returns payment result",
+        "id" : "13",
+        "order" : "3",
+        "response" : true
+      }, {
+        "description" : "Returns order number or payment failure",
+        "id" : "12",
+        "order" : "4",
+        "response" : true
+      } ]
+    }, {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Kitchen Display polls for active orders and staff mark them complete.",
+      "elementId" : "3",
+      "elements" : [ {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "FLW-KDS-001-display-and-complete-orders",
+      "name" : "Dynamic View: Compile & Sip Kiosk System",
+      "order" : 5,
+      "relationships" : [ {
+        "description" : "Polls for active orders",
+        "id" : "15",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "Returns active orders with details",
+        "id" : "15",
+        "order" : "2",
+        "response" : true
+      }, {
+        "description" : "Marks order as complete",
+        "id" : "10",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "Sends order completion update",
+        "id" : "15",
+        "order" : "4",
+        "response" : false
+      } ]
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: Compile & Sip Kiosk System",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "11"
+      }, {
+        "id" : "14"
+      }, {
+        "id" : "9"
+      } ],
+      "softwareSystemId" : "3"
+    } ]
+  }
+}
