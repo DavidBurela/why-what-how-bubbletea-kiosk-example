@@ -10,8 +10,12 @@ Navigation for the Business area of the Compile & Sip kiosk documentation.
 - [Scope](scope.md) — in-scope and out-of-scope boundaries
 - [Assumptions and Risks](assumptions-and-risks.md) — assumptions to validate and known risks
 
+## Domain
+
+- [Menu Model](menu-model.md) — drink catalogue, customisation options, and pricing rules
+
 ## People and journeys
 
-- `personas/` — _to be created in Phase 2_
-- `journeys/` — _to be created in Phase 2_
-- `scenarios/` — _to be created in Phase 2_
+- [Personas](personas/personas.index.md) — Alex (primary), Jamie (secondary)
+- [Journeys](journeys/journeys.index.md) — JNY-001, JNY-002
+- [Scenarios](scenarios/scenarios.index.md) — SCN-001 through SCN-005

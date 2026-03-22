@@ -9,6 +9,10 @@ Documentation for the Compile & Sip bubble tea kiosk project.
 - [Outcomes](business/outcomes.md) — MVP definition and success criteria
 - [Scope](business/scope.md) — in-scope and out-of-scope boundaries
 - [Assumptions and Risks](business/assumptions-and-risks.md) — assumptions to validate and known risks
+- [Menu Model](business/menu-model.md) — drink catalogue, customisation options, and pricing rules
+- [Personas](business/personas/personas.index.md) — Alex (primary), Jamie (secondary)
+- [Journeys](business/journeys/journeys.index.md) — JNY-001, JNY-002
+- [Scenarios](business/scenarios/scenarios.index.md) — SCN-001 through SCN-005
 
 See [business.index.md](business/business.index.md) for full navigation.
 
