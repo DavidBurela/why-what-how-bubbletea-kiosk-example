@@ -1,0 +1,4 @@
+{
+  "name": "WWH Bubble Tea Kiosk Example",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:10.0"
+}
