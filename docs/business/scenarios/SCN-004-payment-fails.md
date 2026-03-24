@@ -25,3 +25,7 @@ The error message should be friendly, not technical ("Payment didn't go through 
 **And** they are advised to pay at the counter instead
 
 This is an edge case but important for resilience. The kiosk should not appear broken — it should gracefully degrade. This variant may be captured as a separate BDD test rather than a separate scenario.
+
+## Verification
+
+BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-004-payment-fails.feature`

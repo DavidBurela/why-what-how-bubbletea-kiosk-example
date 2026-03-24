@@ -69,8 +69,8 @@ Three source projects — one per documented application. Four test projects.
 | 3 | `phase-3-order-api.md` | 4 API endpoints + ~20 integration tests | `api-design` | Complete |
 | 4 | `phase-4-bdd-tests.md` | BDD features for SCN-001–005 (~12 scenarios) | `bdd-conventions` | Complete |
 | 5 | `phase-5-kiosk-tui.md` | Customer terminal app + service tests | — | Complete |
-| 6 | `phase-6-kitchen-display.md` | Kitchen polling display + service tests | — | Not started |
-| 7 | `phase-7-integration.md` | ADRs, doc updates, final verification | — | Not started |
+| 6 | `phase-6-kitchen-display.md` | Kitchen polling display + service tests | — | Complete |
+| 7 | `phase-7-integration.md` | ADRs, doc updates, final verification | — | Complete |
 
 | Phase | Commit message |
 |-------|---------------|

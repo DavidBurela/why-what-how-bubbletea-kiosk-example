@@ -14,3 +14,7 @@
 ## Notes
 
 The menu is small (3 items) and should be immediately visible without scrolling or searching. Each drink shows its name, a brief description, and base price.
+
+## Verification
+
+BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-001-browse-menu-select-drink.feature`

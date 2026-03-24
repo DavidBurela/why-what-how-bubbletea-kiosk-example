@@ -12,4 +12,4 @@ Staff-facing display showing active orders with full customisation details. Kitc
 
 ## Source code
 
-`src/kitchen-display/` — _source code not yet created_
+`src/CompileAndSip.KitchenDisplay/` — Spectre.Console staff-facing kitchen polling display

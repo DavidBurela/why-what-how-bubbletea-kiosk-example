@@ -19,3 +19,7 @@
 ## Notes
 
 Default selections should be sensible (e.g., Regular milk, 100% sugar, Regular ice, Cold). Toppings are optional. Price adjustments for milk alternatives or toppings should be reflected in real time.
+
+## Verification
+
+BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-002-customise-drink.feature`

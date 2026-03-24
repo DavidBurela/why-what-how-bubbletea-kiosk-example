@@ -12,4 +12,4 @@ Central backend service. Receives orders from the kiosk, stores them in memory, 
 
 ## Source code
 
-`src/order-api/` — _source code not yet created_
+`src/CompileAndSip.OrderApi/` — ASP.NET Core Minimal API with domain logic and in-memory storage

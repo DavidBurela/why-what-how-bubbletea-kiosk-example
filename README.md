@@ -8,8 +8,6 @@ This repository demonstrates how the **Why-What-How** framework organises projec
 
 The scenario is **Compile & Sip**, an independent bubble tea shop introducing a self-service ordering kiosk to solve two real problems: long queues during peak hours and order customisation errors from verbal relay. The system spans three applications — a customer-facing kiosk, a central order API, and a kitchen display — giving enough architectural surface to showcase the framework without unnecessary complexity.
 
-> This is a **documentation-only** example. No source code exists yet — the focus is on the documentation layer that precedes and guides implementation.
-
 ## The Scenario
 
 Compile & Sip is a neighbourhood bubble tea shop where peak-hour queues cause 20–30% of potential customers to walk away, and verbal order relay leads to wrong milk types, forgotten toppings, and wasted drinks. The solution is a self-service kiosk where customers browse a three-drink menu, customise their order (milk type, toppings, sugar, ice, temperature), and pay by card. Orders appear instantly on a kitchen display for preparation, eliminating the verbal bottleneck entirely.
@@ -24,8 +22,8 @@ Read more: [Business Context](docs/business/business-context.md) · [Vision](doc
 |------|-------|---------------------|
 | **Business** | Why | Vision, outcomes, scope, menu model, 2 personas, 2 journeys, 5 testable scenarios |
 | **Solution** | What | System context, 3 applications (Kiosk TUI, Order API, Kitchen Display), application flows, C4 model |
-| **Standards** | How | _Placeholder — to be populated_ |
-| **Decisions** | Why&nbsp;This | 3 ADRs: .NET platform, in-memory storage, REST/HTTP polling |
+| **Standards** | How | Engineering conventions, testing strategy, local development |
+| **Decisions** | Why&nbsp;This | 7 ADRs: .NET platform, in-memory storage, REST/HTTP polling, project structure, test strategy, manual orchestration, simulated payment |
 
 ## Repository Structure
 
@@ -59,7 +57,11 @@ docs/
 └── decisions/                         # WHY THIS — architectural decision records
     ├── ADR-0001-solution-dotnet-platform.md
     ├── ADR-0002-application-order-api-in-memory-storage.md
-    └── ADR-0003-solution-rest-http-polling.md
+    ├── ADR-0003-solution-rest-http-polling.md
+    ├── ADR-0004-solution-project-structure.md
+    ├── ADR-0005-solution-test-strategy.md
+    ├── ADR-0006-solution-manual-orchestration.md
+    └── ADR-0007-application-order-api-simulated-payment-gateway.md
 ```
 
 ## How to Explore
@@ -86,13 +88,28 @@ The [Why-What-How](https://github.com/DavidBurela/why-what-how) framework organi
 
 The structure supports **progressive context loading** — both humans and AI agents can navigate from high-level intent down to specific detail without needing to read everything at once.
 
+## How to Run
+
+**Prerequisites:** .NET 10 SDK
+
+**Quick start:**
+
+```bash
+cd src
+dotnet build
+dotnet test
+```
+
+See [src/README.md](src/README.md) for full instructions including how to start all three applications.
+
 ## Status
 
-This is the documentation layer of the example. Implementation (source code) is not yet included.
+This repository includes both the documentation layer and a complete implementation:
 
-- Business, Solution, and Decisions areas are populated
-- Standards area is a placeholder
-- C4 diagrams will be added
+- Business, Solution, Standards, and Decisions areas are fully populated
+- Source code: 3 applications + 4 test projects in `src/`
+- 62 tests: domain TDD, API integration, BDD scenarios, and service layer tests
+- C4 diagrams included in the workspace
 
 ## License
 

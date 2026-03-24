@@ -15,3 +15,7 @@
 ## Notes
 
 The order number is a simple sequential number for the day. The confirmation screen should clearly show "Your order number is #XX" and indicate they should wait for their number to be called.
+
+## Verification
+
+BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-003-payment-succeeds.feature`

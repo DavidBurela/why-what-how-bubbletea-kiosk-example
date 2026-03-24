@@ -12,4 +12,4 @@ Customer-facing self-service ordering terminal. Displays the drink menu, takes c
 
 ## Source code
 
-`src/kiosk-tui/` — _source code not yet created_
+`src/CompileAndSip.KioskTui/` — Spectre.Console customer-facing ordering terminal

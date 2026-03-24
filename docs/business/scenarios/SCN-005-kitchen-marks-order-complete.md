@@ -15,3 +15,7 @@
 ## Notes
 
 The kitchen display shows orders in the sequence they were received. Each order shows full customisation details. Marking as complete is a single action (button press). There is no digital notification to the customer — the verbal callout is the notification mechanism. This keeps the system simple.
+
+## Verification
+
+BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-005-kitchen-marks-order-complete.feature`
