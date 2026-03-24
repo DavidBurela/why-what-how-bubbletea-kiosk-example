@@ -23,3 +23,5 @@ Default selections should be sensible (e.g., Regular milk, 100% sugar, Regular i
 ## Verification
 
 BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-002-customise-drink.feature`
+
+Current status: [BDD verification status](../verification/bdd-status.md)

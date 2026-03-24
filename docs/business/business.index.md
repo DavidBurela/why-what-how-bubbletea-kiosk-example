@@ -19,3 +19,7 @@ Navigation for the Business area of the Compile & Sip kiosk documentation.
 - [Personas](personas/personas.index.md) — Alex (primary), Jamie (secondary)
 - [Journeys](journeys/journeys.index.md) — JNY-001, JNY-002
 - [Scenarios](scenarios/scenarios.index.md) — SCN-001 through SCN-005
+
+## Verification
+
+- [BDD Verification Status](verification/bdd-status.md) — current pass/fail status for all business scenarios

@@ -2,6 +2,12 @@
 
 All source code and the solution file for the Compile & Sip Kiosk System.
 
+## Prerequisites
+
+- .NET 10 SDK
+
+The easiest way to get started is to use the included **devcontainer**, which has all dependencies pre-installed. Open the repo in VS Code and select "Reopen in Container" when prompted.
+
 ## Project layout
 
 | Project | Type | Description |

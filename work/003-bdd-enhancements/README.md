@@ -37,9 +37,9 @@ Rules:
 
 | # | File | What it produces | Status |
 |---|------|-----------------|--------|
-| 1 | `phase-1-documentation.md` | Enriched `docs.why-what-how.bdd.md` + expanded `bdd-conventions.md` | Not started |
-| 2 | `phase-2-report-pipeline.md` | Report generation script + initial generated reports | Not started |
-| 3 | `phase-3-business-linking.md` | Verification links in scenarios, business context, indexes | Not started |
+| 1 | `phase-1-documentation.md` | Enriched `docs.why-what-how.bdd.md` + expanded `bdd-conventions.md` | Complete |
+| 2 | `phase-2-report-pipeline.md` | Report generation script + initial generated reports | Complete |
+| 3 | `phase-3-business-linking.md` | Verification links in scenarios, business context, indexes | Complete |
 
 | Phase | Commit message |
 |-------|---------------|

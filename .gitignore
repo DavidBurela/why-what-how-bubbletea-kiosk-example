@@ -10,3 +10,6 @@ publish/
 *.userosscache
 *.sln.docstates
 *.userprefs
+
+# Test results (intermediate files — reports are in docs/business/verification/)
+src/test-results/

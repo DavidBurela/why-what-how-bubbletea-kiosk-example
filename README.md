@@ -73,7 +73,8 @@ A suggested reading order for newcomers:
 3. **Meet the users** — [Personas](docs/business/personas/personas.index.md) → [Journeys](docs/business/journeys/journeys.index.md) → [Scenarios](docs/business/scenarios/scenarios.index.md)
 4. **See the solution shape** — [solution-context.md](docs/solution/solution-context.md) and [applications-context.md](docs/solution/applications/applications-context.md)
 5. **Understand the trade-offs** — [Decisions](docs/decisions/decisions.index.md)
-6. **Bootstrap your own** — [docs.bootstrap.md](docs/docs.bootstrap.md)
+6. **Check verification status** — [BDD Verification Status](docs/business/verification/bdd-status.md) shows which business scenarios are passing as executable tests
+7. **Bootstrap your own** — [docs.bootstrap.md](docs/docs.bootstrap.md)
 
 Or start from the [docs index](docs/docs.index.md) and navigate freely.
 
@@ -90,17 +91,7 @@ The structure supports **progressive context loading** — both humans and AI ag
 
 ## How to Run
 
-**Prerequisites:** .NET 10 SDK
-
-**Quick start:**
-
-```bash
-cd src
-dotnet build
-dotnet test
-```
-
-See [src/README.md](src/README.md) for full instructions including how to start all three applications.
+See [src/README.md](src/README.md) for build, test, and run instructions.
 
 ## Status
 

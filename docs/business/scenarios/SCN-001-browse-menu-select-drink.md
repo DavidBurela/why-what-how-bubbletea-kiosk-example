@@ -18,3 +18,5 @@ The menu is small (3 items) and should be immediately visible without scrolling 
 ## Verification
 
 BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-001-browse-menu-select-drink.feature`
+
+Current status: [BDD verification status](../verification/bdd-status.md)

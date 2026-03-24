@@ -42,3 +42,10 @@ The shop has been open for two years. Business is good — almost too good. Peak
 
 3. **How might we let customers order at their own pace without a staff bottleneck?**
    The kiosk doesn't have a queue behind it pressuring the customer. They browse, customise, and confirm on their own terms.
+
+## Verification
+
+Business scenarios are verified via executable BDD tests that run against the API boundary. Each scenario defined in [Scenarios](scenarios/scenarios.index.md) has a corresponding feature file containing Given/When/Then examples written in business language.
+
+- [Current verification status](verification/bdd-status.md) — pass/fail summary for all scenarios
+- [How BDD verification works](../docs.why-what-how.bdd.md) — methodology and structure

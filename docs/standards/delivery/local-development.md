@@ -42,3 +42,18 @@ This starts all three apps and stops them on `Ctrl+C`.
 
 - **Order API** listens on `http://localhost:5100` (configured in `CompileAndSip.OrderApi/Properties/launchSettings.json`).
 - **TUI apps** connect to Order API via `OrderApi:BaseUrl` config (default: `http://localhost:5100`).
+
+## Verification reports
+
+Generate BDD verification reports (HTML + markdown summary):
+
+```bash
+cd src
+./generate-bdd-report.sh
+```
+
+This produces:
+- `docs/business/verification/bdd-status.md` — markdown summary viewable on GitHub
+- `docs/business/verification/bdd-results.html` — interactive HTML report viewable in a browser
+
+Both files are committed to the repo. Re-run the script after any test changes to update them.
