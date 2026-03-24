@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/CompileAndSip.Bdd.Tests/CompileAndSip.Bdd.Tests.csproj" />
+    <Project Path="tests/CompileAndSip.KioskTui.Tests/CompileAndSip.KioskTui.Tests.csproj" />
+    <Project Path="tests/CompileAndSip.KitchenDisplay.Tests/CompileAndSip.KitchenDisplay.Tests.csproj" />
+    <Project Path="tests/CompileAndSip.OrderApi.Tests/CompileAndSip.OrderApi.Tests.csproj" />
+  </Folder>
+  <Project Path="CompileAndSip.KioskTui/CompileAndSip.KioskTui.csproj" />
+  <Project Path="CompileAndSip.KitchenDisplay/CompileAndSip.KitchenDisplay.csproj" />
+  <Project Path="CompileAndSip.OrderApi/CompileAndSip.OrderApi.csproj" />
+</Solution>
