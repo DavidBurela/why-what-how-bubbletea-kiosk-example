@@ -67,7 +67,7 @@ Three source projects — one per documented application. Four test projects.
 | 1 | `phase-1-scaffold.md` | Solution skeleton — 7 projects, builds clean | `project-structure`, `coding-conventions`, `local-development` | Complete |
 | 2 | `phase-2-domain-model.md` | Domain types + ~20 TDD tests (in OrderApi) | `testing-strategy`, `tdd-conventions` | Complete |
 | 3 | `phase-3-order-api.md` | 4 API endpoints + ~20 integration tests | `api-design` | Complete |
-| 4 | `phase-4-bdd-tests.md` | BDD features for SCN-001–005 (~12 scenarios) | `bdd-conventions` | Not started |
+| 4 | `phase-4-bdd-tests.md` | BDD features for SCN-001–005 (~12 scenarios) | `bdd-conventions` | Complete |
 | 5 | `phase-5-kiosk-tui.md` | Customer terminal app + service tests | — | Not started |
 | 6 | `phase-6-kitchen-display.md` | Kitchen polling display + service tests | — | Not started |
 | 7 | `phase-7-integration.md` | ADRs, doc updates, final verification | — | Not started |

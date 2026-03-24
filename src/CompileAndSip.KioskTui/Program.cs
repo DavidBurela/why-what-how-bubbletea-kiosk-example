@@ -1,4 +1,18 @@
-﻿using Spectre.Console;
+﻿using CompileAndSip.KioskTui;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-AnsiConsole.MarkupLine("[bold green]Compile & Sip — Kiosk[/]");
-AnsiConsole.MarkupLine("(Kiosk TUI will be implemented in Phase 5)");
+var builder = Host.CreateApplicationBuilder(args);
+
+var baseUrl = builder.Configuration.GetValue<string>("OrderApi:BaseUrl") ?? "http://localhost:5100";
+
+builder.Services.AddHttpClient<IOrderApiClient, OrderApiClient>(client =>
+{
+    client.BaseAddress = new Uri(baseUrl);
+});
+
+var host = builder.Build();
+var apiClient = host.Services.GetRequiredService<IOrderApiClient>();
+var app = new KioskApp(apiClient);
+await app.RunAsync();
