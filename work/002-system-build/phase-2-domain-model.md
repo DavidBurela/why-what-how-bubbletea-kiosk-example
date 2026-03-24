@@ -1,6 +1,8 @@
 # Phase 2: Domain Model (TDD)
 
-Implement shared domain types, menu data, pricing, and order model — all test-first. Code in `src/CompileAndSip.Domain/`, tests in `tests/CompileAndSip.Domain.Tests/`.
+Implement domain types, menu data, pricing, and order model — all test-first. Code in `src/CompileAndSip.OrderApi/`, tests in `src/tests/CompileAndSip.OrderApi.Tests/`.
+
+Domain types live inside the OrderApi project because it owns all business logic. TUI apps communicate via HTTP with their own DTOs — they never reference these types directly.
 
 ## Read first
 
@@ -14,9 +16,9 @@ Implement shared domain types, menu data, pricing, and order model — all test-
 
 | Drink | Base Price | Description |
 |-------|-----------|-------------|
-| Classic Milk Tea | $5.50 | Traditional black milk tea with a smooth, creamy finish |
-| Taro Milk Tea | $6.00 | Creamy taro root blended with milk tea |
-| Mango Green Tea | $6.00 | Refreshing green tea with tropical mango |
+| Classic Milk Tea | $5.50 | Traditional black tea with milk and tapioca pearls. The original. |
+| Taro Milk Tea | $6.00 | Creamy taro root blended with milk tea. Rich and slightly sweet. |
+| Mango Green Tea | $6.00 | Fresh mango with jasmine green tea. Light and refreshing. |
 
 ### Customisation and pricing
 
@@ -36,6 +38,8 @@ Implement shared domain types, menu data, pricing, and order model — all test-
 
 TDD workflow: write failing test → write minimum code to pass → refactor. Repeat for each component.
 
+All domain types are created in the `src/CompileAndSip.OrderApi/` project using the `CompileAndSip.OrderApi` namespace.
+
 ### 1. Enums
 
 Create enums: `MilkType` (Regular, Oat, None), `Topping` (TapiocaPearls, CoconutJelly, Pudding), `SugarLevel` (Zero, TwentyFive, Fifty, SeventyFive, Hundred), `IceLevel` (NoIce, LessIce, RegularIce), `Temperature` (Hot, Cold), `OrderStatus` (Created, Paid, Complete).
@@ -50,7 +54,7 @@ Create enums: `MilkType` (Regular, Oat, None), `Topping` (TapiocaPearls, Coconut
 
 `CalculatePrice(Drink drink, DrinkCustomisation customisation) → decimal`
 
-**Write these tests first:**
+**Write these tests first** in `src/tests/CompileAndSip.OrderApi.Tests/`:
 
 | Test name | Input | Expected |
 |-----------|-------|----------|
@@ -122,7 +126,7 @@ No tests for the interface itself — `FakePaymentGateway` is tested in Phase 3.
 Now that we've established TDD patterns, capture them as standards for future phases.
 
 **`docs/standards/testing/testing-strategy.md`** — from the verification approach used in this build:
-- Three layers: BDD (Reqnroll, API boundary) catches intent errors, TDD (xUnit + FluentAssertions) catches implementation errors, manual E2E via Aspire catches integration errors
+- Three layers: BDD (Reqnroll, API boundary) catches intent errors, TDD (xUnit + FluentAssertions) catches implementation errors, manual E2E catches integration errors
 - BDD tests run against the API via `WebApplicationFactory` — no external process needed
 - Console/TUI rendering is NOT tested — only service layers and API clients
 - All tests must be deterministic — no random data, no time-dependent assertions
@@ -137,9 +141,11 @@ Now that we've established TDD patterns, capture them as standards for future ph
 ## Verification
 
 ```bash
-dotnet test tests/CompileAndSip.Domain.Tests --verbosity normal
+cd src
+dotnet test tests/CompileAndSip.OrderApi.Tests --verbosity normal
 # Expect ~20+ tests, all passing
 dotnet build
+cd ..
 find docs/standards -name '*.md' | wc -l   # Should be 6 files
 ```
 
@@ -149,7 +155,7 @@ You MUST commit before proceeding to the next phase. Run these commands:
 
 ```bash
 git add -A
-git commit -m "feat: implement domain model with TDD and testing standards"
+git commit -m "feat(phase-2): implement domain model with TDD"
 ```
 
 Then update `work/002-system-build/README.md` — change Phase 2 status from "Not started" to "Complete".

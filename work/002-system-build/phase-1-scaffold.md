@@ -1,6 +1,6 @@
 # Phase 1: Scaffold
 
-Create the solution with 11 projects, wire Aspire, and verify it builds. No business logic — just the skeleton.
+Create the solution with 7 projects inside `src/`, verify it builds. No business logic — just the skeleton.
 
 ## Read first
 
@@ -11,85 +11,82 @@ Create the solution with 11 projects, wire Aspire, and verify it builds. No busi
 
 ### 1. Clean stale directories
 
-Prior attempts left empty directories with stale `obj/` folders. Remove them:
+Prior attempts may have left empty directories with stale `obj/` folders. Remove them:
 
 ```bash
 find src tests -name "obj" -type d -exec rm -rf {} + 2>/dev/null; true
+rm -rf src/ tests/ CompileAndSip.sln CompileAndSip.slnx 2>/dev/null; true
 ```
 
 ### 2. Create solution and all projects
 
+All projects live under `src/`. Run commands from the repository root:
+
 ```bash
+mkdir -p src
+cd src
+
+# Create solution file
 dotnet new sln -n CompileAndSip
 
 # Source projects
-dotnet new classlib -o src/CompileAndSip.Domain
-dotnet new web -o src/CompileAndSip.OrderApi
-dotnet new console -o src/CompileAndSip.KioskTui
-dotnet new console -o src/CompileAndSip.KitchenDisplay
-dotnet new console -o src/CompileAndSip.AppHost
-dotnet new classlib -o src/CompileAndSip.ServiceDefaults
+dotnet new web -o CompileAndSip.OrderApi
+dotnet new console -o CompileAndSip.KioskTui
+dotnet new console -o CompileAndSip.KitchenDisplay
 
-# Test projects
-dotnet new xunit -o tests/CompileAndSip.Domain.Tests
+# Test projects (under src/tests/)
 dotnet new xunit -o tests/CompileAndSip.OrderApi.Tests
 dotnet new xunit -o tests/CompileAndSip.Bdd.Tests
 dotnet new xunit -o tests/CompileAndSip.KioskTui.Tests
 dotnet new xunit -o tests/CompileAndSip.KitchenDisplay.Tests
 
 # Add all to solution
-dotnet sln add src/**/*.csproj tests/**/*.csproj
+dotnet sln add \
+  CompileAndSip.OrderApi \
+  CompileAndSip.KioskTui \
+  CompileAndSip.KitchenDisplay \
+  tests/CompileAndSip.OrderApi.Tests \
+  tests/CompileAndSip.Bdd.Tests \
+  tests/CompileAndSip.KioskTui.Tests \
+  tests/CompileAndSip.KitchenDisplay.Tests
+
+cd ..
 ```
 
 ### 3. Remove all placeholder files
 
 ```bash
 find src -name "Class1.cs" -delete
-find tests -name "UnitTest1.cs" -delete
-# Also remove any auto-generated test files
-find tests -name "Test1.cs" -delete
+find src -name "UnitTest1.cs" -delete
+find src -name "Test1.cs" -delete
 ```
 
 ### 4. Add project references
 
 ```bash
-# Apps reference Domain + ServiceDefaults
-dotnet add src/CompileAndSip.OrderApi reference src/CompileAndSip.Domain src/CompileAndSip.ServiceDefaults
-dotnet add src/CompileAndSip.KioskTui reference src/CompileAndSip.Domain src/CompileAndSip.ServiceDefaults
-dotnet add src/CompileAndSip.KitchenDisplay reference src/CompileAndSip.Domain src/CompileAndSip.ServiceDefaults
-
-# AppHost references all runnable apps
-dotnet add src/CompileAndSip.AppHost reference src/CompileAndSip.OrderApi src/CompileAndSip.KioskTui src/CompileAndSip.KitchenDisplay
+cd src
 
 # Test projects reference their targets
-dotnet add tests/CompileAndSip.Domain.Tests reference src/CompileAndSip.Domain
-dotnet add tests/CompileAndSip.OrderApi.Tests reference src/CompileAndSip.OrderApi
-dotnet add tests/CompileAndSip.Bdd.Tests reference src/CompileAndSip.OrderApi
-dotnet add tests/CompileAndSip.KioskTui.Tests reference src/CompileAndSip.KioskTui
-dotnet add tests/CompileAndSip.KitchenDisplay.Tests reference src/CompileAndSip.KitchenDisplay
+dotnet add tests/CompileAndSip.OrderApi.Tests reference CompileAndSip.OrderApi
+dotnet add tests/CompileAndSip.Bdd.Tests reference CompileAndSip.OrderApi
+dotnet add tests/CompileAndSip.KioskTui.Tests reference CompileAndSip.KioskTui
+dotnet add tests/CompileAndSip.KitchenDisplay.Tests reference CompileAndSip.KitchenDisplay
+
+cd ..
 ```
+
+Note: the three source projects have **no references to each other**. TUI apps communicate with the Order API via HTTP only — matching the architecture diagram exactly.
 
 ### 5. Add NuGet packages
 
 ```bash
-# Aspire hosting
-dotnet add src/CompileAndSip.AppHost package Aspire.Hosting.AppHost
-
-# ServiceDefaults
-dotnet add src/CompileAndSip.ServiceDefaults package Microsoft.Extensions.Http.Resilience
-dotnet add src/CompileAndSip.ServiceDefaults package Microsoft.Extensions.ServiceDiscovery
-dotnet add src/CompileAndSip.ServiceDefaults package OpenTelemetry.Exporter.OpenTelemetryProtocol
-dotnet add src/CompileAndSip.ServiceDefaults package OpenTelemetry.Extensions.Hosting
-dotnet add src/CompileAndSip.ServiceDefaults package OpenTelemetry.Instrumentation.AspNetCore
-dotnet add src/CompileAndSip.ServiceDefaults package OpenTelemetry.Instrumentation.Http
-dotnet add src/CompileAndSip.ServiceDefaults package OpenTelemetry.Instrumentation.Runtime
+cd src
 
 # TUI libraries
-dotnet add src/CompileAndSip.KioskTui package Spectre.Console
-dotnet add src/CompileAndSip.KitchenDisplay package Spectre.Console
+dotnet add CompileAndSip.KioskTui package Spectre.Console
+dotnet add CompileAndSip.KitchenDisplay package Spectre.Console
 
 # Testing packages
-dotnet add tests/CompileAndSip.Domain.Tests package FluentAssertions
 dotnet add tests/CompileAndSip.OrderApi.Tests package FluentAssertions
 dotnet add tests/CompileAndSip.OrderApi.Tests package Microsoft.AspNetCore.Mvc.Testing
 dotnet add tests/CompileAndSip.KioskTui.Tests package FluentAssertions
@@ -98,69 +95,40 @@ dotnet add tests/CompileAndSip.Bdd.Tests package FluentAssertions
 dotnet add tests/CompileAndSip.Bdd.Tests package Microsoft.AspNetCore.Mvc.Testing
 dotnet add tests/CompileAndSip.Bdd.Tests package Reqnroll
 dotnet add tests/CompileAndSip.Bdd.Tests package Reqnroll.xUnit
+
+cd ..
 ```
 
-### 6. Configure Aspire AppHost
+### 6. Configure OrderApi launch settings
 
-**Aspire is NuGet-based in .NET 10. No workload, no templates.**
+Create `src/CompileAndSip.OrderApi/Properties/launchSettings.json` — bind to port 5100 so TUI apps have a known address:
 
-Edit `src/CompileAndSip.AppHost/CompileAndSip.AppHost.csproj` to add the Aspire SDK and `IsAspireHost` property. Check NuGet for the latest `Aspire.AppHost.Sdk` version:
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="Aspire.AppHost.Sdk" Version="<latest>" />
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <IsAspireHost>true</IsAspireHost>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" />
-  </ItemGroup>
-
-  <!-- Project references added by dotnet add reference -->
-</Project>
+```json
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5100",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
 ```
 
-Write `src/CompileAndSip.AppHost/Program.cs`:
-
-```csharp
-var builder = DistributedApplication.CreateBuilder(args);
-
-var orderApi = builder.AddProject<Projects.CompileAndSip_OrderApi>("order-api");
-
-builder.AddProject<Projects.CompileAndSip_KioskTui>("kiosk-tui")
-    .WithReference(orderApi)
-    .WithExternalHttpEndpoints();
-
-builder.AddProject<Projects.CompileAndSip_KitchenDisplay>("kitchen-display")
-    .WithReference(orderApi)
-    .WithExternalHttpEndpoints();
-
-builder.Build().Run();
-```
-
-### 7. Create ServiceDefaults
-
-Write `src/CompileAndSip.ServiceDefaults/Extensions.cs` with two extension methods:
-
-- `AddServiceDefaults(this IHostApplicationBuilder)` — configures OpenTelemetry (logging, metrics, tracing), health checks, service discovery, and default HTTP client resilience/discovery.
-- `MapDefaultEndpoints(this WebApplication)` — maps `/health` and `/alive` health check endpoints.
-
-This is the standard Aspire ServiceDefaults pattern. Reference the Aspire documentation or samples for the exact implementation.
-
-### 8. Write stub Program.cs for each app
+### 7. Write stub Program.cs for each app
 
 **OrderApi** `src/CompileAndSip.OrderApi/Program.cs`:
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
 var app = builder.Build();
-app.MapDefaultEndpoints();
+
 app.MapGet("/", () => "Compile & Sip Order API");
+
 app.Run();
 
 public partial class Program { } // Enables WebApplicationFactory in tests
@@ -184,17 +152,59 @@ AnsiConsole.MarkupLine("[bold blue]Compile & Sip — Kitchen Display[/]");
 AnsiConsole.MarkupLine("(Kitchen Display will be implemented in Phase 6)");
 ```
 
-### 9. Create standards files
+### 8. Create `src/README.md`
 
-Standards capture cross-cutting conventions so future agent sessions maintain consistency. Create the following files under `docs/standards/`. These distil decisions already made in the existing ADRs — they are not new decisions.
+Create `src/README.md` covering:
+
+- **Project layout** — table of 3 source projects + 4 test projects with one-line descriptions
+- **Build** — `cd src && dotnet build`
+- **Test** — `dotnet test`
+- **Run** — 3-terminal instructions: Terminal 1 starts OrderApi on port 5100, Terminal 2 starts KioskTui, Terminal 3 starts KitchenDisplay. Mention the `run-all.sh` convenience script.
+- **Configuration** — OrderApi listens on `http://localhost:5100` (via launchSettings.json). TUI apps read the Order API URL from `OrderApi:BaseUrl` in appsettings.json (default: `http://localhost:5100`).
+
+### 9. Create `src/run-all.sh`
+
+Create `src/run-all.sh` — a bash script that starts all 3 apps:
+
+```bash
+#!/usr/bin/env bash
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "Starting Order API on http://localhost:5100..."
+dotnet run --project "$SCRIPT_DIR/CompileAndSip.OrderApi" &
+API_PID=$!
+sleep 3
+
+echo "Starting Kiosk TUI..."
+dotnet run --project "$SCRIPT_DIR/CompileAndSip.KioskTui" &
+KIOSK_PID=$!
+
+echo "Starting Kitchen Display..."
+dotnet run --project "$SCRIPT_DIR/CompileAndSip.KitchenDisplay" &
+KDS_PID=$!
+
+echo ""
+echo "All apps started. Press Ctrl+C to stop."
+trap "kill $API_PID $KIOSK_PID $KDS_PID 2>/dev/null" EXIT
+wait
+```
+
+Make it executable: `chmod +x src/run-all.sh`
+
+### 10. Create standards files
+
+Standards capture cross-cutting conventions so future agent sessions maintain consistency. Create the following files under `docs/standards/`. These distil decisions already made — they are not new decisions.
 
 **`docs/standards/standards.index.md`** — navigation page linking to Engineering, Testing, and Delivery sub-areas.
 
-**`docs/standards/engineering/project-structure.md`** — from ADR-0001 and the solution structure above:
-- `.sln` at repo root, source in `src/`, tests in `tests/`
+**`docs/standards/engineering/project-structure.md`** — from the solution structure above:
+- Solution file in `src/`, source projects alongside it, tests in `src/tests/`
 - `CompileAndSip.<Name>` naming convention
-- Dependency rules: Domain has zero external deps, apps reference Domain + ServiceDefaults, test projects mirror source projects
-- AppHost references all runnable apps
+- Three source projects — one per documented application — with no inter-project references
+- Dependency rules: test projects reference their corresponding source project. TUI apps do NOT reference OrderApi — they communicate via HTTP only.
+- Each source project folder maps 1:1 to a box on the C4 container diagram
 
 **`docs/standards/engineering/coding-conventions.md`** — from ADR-0001, ADR-0002:
 - .NET 10, file-scoped namespaces
@@ -204,19 +214,21 @@ Standards capture cross-cutting conventions so future agent sessions maintain co
 - Interface-based DI for testability
 - `ConcurrentDictionary` for in-memory storage, `Interlocked.Increment` for atomic counters
 
-**`docs/standards/delivery/local-development.md`** — from ADR-0001 and Aspire setup:
-- `dotnet run --project src/CompileAndSip.AppHost` starts all apps
-- `dotnet test` runs all test layers
-- No Aspire workload needed — Aspire is NuGet-based
-- No Docker required
-- Aspire dashboard provides observability
+**`docs/standards/delivery/local-development.md`** — from the run instructions:
+- Each app starts independently with `dotnet run --project src/CompileAndSip.<Name>`
+- OrderApi listens on `http://localhost:5100` (configured in launchSettings.json)
+- TUI apps connect to Order API via `OrderApi:BaseUrl` config (default `http://localhost:5100`)
+- `cd src && dotnet test` runs all test layers
+- Convenience script: `./src/run-all.sh` starts all 3 apps
 
-### 10. Verify build
+### 11. Verify build
 
 ```bash
+cd src
 dotnet build
-dotnet test   # Should pass with 0 tests (no test files)
-dotnet sln list   # Should show 11 projects
+dotnet test   # Should pass with 0 tests (no test files yet)
+dotnet sln list   # Should show 7 projects
+cd ..
 find docs/standards -name '*.md' | wc -l   # Should be 4 files
 ```
 
@@ -228,7 +240,7 @@ You MUST commit before proceeding to the next phase. Run these commands:
 
 ```bash
 git add -A
-git commit -m "feat: scaffold solution with 11 projects, Aspire, and engineering standards"
+git commit -m "feat(phase-1): scaffold solution structure with standards"
 ```
 
 Then update `work/002-system-build/README.md` — change Phase 1 status from "Not started" to "Complete".

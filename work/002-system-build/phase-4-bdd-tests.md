@@ -23,7 +23,7 @@ Write Reqnroll feature files for business scenarios SCN-001 through SCN-005 and 
 
 ### 1. Test infrastructure
 
-Create `tests/CompileAndSip.Bdd.Tests/Support/` with:
+Create `src/tests/CompileAndSip.Bdd.Tests/Support/` with:
 
 - **`TestContext`** class — shared per-scenario state holding `HttpClient`, last `HttpResponseMessage`, and `FakePaymentGateway` reference.
 - **`Hooks`** class with `[BeforeScenario]` — creates a `WebApplicationFactory<Program>`, configures services, stores `HttpClient` and `FakePaymentGateway` in `TestContext`.
@@ -31,7 +31,7 @@ Create `tests/CompileAndSip.Bdd.Tests/Support/` with:
 
 ### 2. Feature files
 
-Create feature files in `tests/CompileAndSip.Bdd.Tests/Features/`:
+Create feature files in `src/tests/CompileAndSip.Bdd.Tests/Features/`:
 
 **`SCN-001-browse-menu-select-drink.feature`** — from SCN-001:
 - Customer views the menu
@@ -61,7 +61,7 @@ Create feature files in `tests/CompileAndSip.Bdd.Tests/Features/`:
 
 ### 3. Step definitions
 
-Create step definition classes in `tests/CompileAndSip.Bdd.Tests/StepDefinitions/`:
+Create step definition classes in `src/tests/CompileAndSip.Bdd.Tests/StepDefinitions/`:
 
 - **`MenuSteps`** — viewing menu, checking drink names/prices/descriptions
 - **`OrderSteps`** — placing orders with customisation
@@ -90,6 +90,8 @@ Capture the BDD patterns established in this phase.
 ## Verification
 
 ```bash
+cd src
+
 dotnet test tests/CompileAndSip.Bdd.Tests --verbosity normal
 # Expect ~12+ scenarios, all passing
 
@@ -99,6 +101,8 @@ grep -rn 'GET\|POST\|PUT\|DELETE\|/menu\|/orders\|HTTP\|status.code\|json\|200\|
 
 # All prior tests still pass
 dotnet test
+
+cd ..
 find docs/standards -name '*.md' | wc -l   # Should be 8 files
 ```
 
@@ -108,7 +112,7 @@ You MUST commit before proceeding to the next phase. Run these commands:
 
 ```bash
 git add -A
-git commit -m "feat: add BDD verification for all business scenarios with BDD standard"
+git commit -m "feat(phase-4): add BDD verification for all business scenarios"
 ```
 
 Then update `work/002-system-build/README.md` — change Phase 4 status from "Not started" to "Complete".

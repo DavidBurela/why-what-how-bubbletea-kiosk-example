@@ -1,6 +1,6 @@
 # Phase 5: Kiosk TUI
 
-Build the customer-facing Spectre.Console terminal app. Code in `src/CompileAndSip.KioskTui/`, tests in `tests/CompileAndSip.KioskTui.Tests/`.
+Build the customer-facing Spectre.Console terminal app. Code in `src/CompileAndSip.KioskTui/`, tests in `src/tests/CompileAndSip.KioskTui.Tests/`.
 
 ## Read first
 
@@ -10,7 +10,6 @@ Build the customer-facing Spectre.Console terminal app. Code in `src/CompileAndS
 - `docs/business/scenarios/SCN-004-payment-fails.md` — payment failure UX (preserve customisation)
 - `docs/standards/engineering/coding-conventions.md` — DI, interface patterns
 - `docs/standards/engineering/api-design.md` — endpoints the kiosk calls (GET /menu, POST /orders)
-- `docs/standards/delivery/local-development.md` — Aspire service discovery pattern
 
 ## Screen flow (from FLW-KSK-001)
 
@@ -22,17 +21,27 @@ Home → Menu → Customise → Review → Pay → Confirmation
 
 ## Steps
 
-### 1. API client — separate from rendering
+### 1. DTOs — the Kiosk's own API contract types
+
+Create `src/CompileAndSip.KioskTui/Dtos.cs` with request/response types matching the Order API contract:
+- `MenuResponse`, `DrinkDto`, `CustomisationOptionsDto`
+- `OrderRequest`, `DrinkCustomisationDto`
+- `OrderResponse` (id, orderNumber, totalPrice)
+- `ErrorResponse`
+
+These are the Kiosk's local copies of the API contract. They do NOT reference the OrderApi project — the HTTP boundary is the only contract.
+
+### 2. API client — separate from rendering
 
 Create `IOrderApiClient` interface:
 - `Task<MenuResponse> GetMenuAsync()`
 - `Task<OrderResult> PlaceOrderAsync(OrderRequest request)`
 
-Create `OrderApiClient` implementation using `HttpClient`. Base address comes from Aspire service discovery (`https+http://order-api`).
+Create `OrderApiClient` implementation using `HttpClient`. Base address from configuration.
 
 `OrderResult` should distinguish: success (with order number + price), payment declined, gateway unavailable.
 
-### 2. Screens (6 — following the flow)
+### 3. Screens (6 — following the flow)
 
 Use Spectre.Console prompts and rendering. Each screen is a method or small class.
 
@@ -48,7 +57,7 @@ Use Spectre.Console prompts and rendering. Each screen is a method or small clas
 - Temperature: SelectionPrompt (Hot, Cold)
 - Show running price total after selections
 
-**Review** — Display a table with drink name, all customisation choices, and total price (calculated via `PricingService`). Confirm or go back to menu.
+**Review** — Display a table with drink name, all customisation choices, and total price. Confirm or go back to menu.
 
 **Payment** — Show "Processing payment..." with a brief simulated pause, call `PlaceOrderAsync()`.
 
@@ -57,17 +66,26 @@ Use Spectre.Console prompts and rendering. Each screen is a method or small clas
 - Declined: "Payment didn't go through — try again?" (retry preserves customisation per SCN-004)
 - Unavailable: "Payment temporarily unavailable. Please pay at the counter."
 
-### 3. Program.cs
+### 4. Program.cs
 
 Wire up with `Host.CreateApplicationBuilder(args)`:
-- Call `builder.AddServiceDefaults()`
-- Register `HttpClient` for `IOrderApiClient` with base address `https+http://order-api`
+- Register `HttpClient` for `IOrderApiClient` with base address from configuration key `OrderApi:BaseUrl` (default: `http://localhost:5100`)
 - Build the host, resolve the API client, run the screen flow loop
 - The app should loop back to Home after each order (or exit on Ctrl+C)
 
-### 4. Tests
+Create `src/CompileAndSip.KioskTui/appsettings.json`:
 
-Test the service layer, NOT the Spectre.Console rendering. In `tests/CompileAndSip.KioskTui.Tests/`:
+```json
+{
+  "OrderApi": {
+    "BaseUrl": "http://localhost:5100"
+  }
+}
+```
+
+### 5. Tests
+
+Test the service layer, NOT the Spectre.Console rendering. In `src/tests/CompileAndSip.KioskTui.Tests/`:
 
 | Test | Expected |
 |------|----------|
@@ -81,9 +99,11 @@ Use a mock HTTP handler or similar technique to test the API client without a ru
 ## Verification
 
 ```bash
+cd src
 dotnet test tests/CompileAndSip.KioskTui.Tests --verbosity normal
 dotnet build
 dotnet test
+cd ..
 ```
 
 ## Commit — do this now before moving on
@@ -92,7 +112,7 @@ You MUST commit before proceeding to the next phase. Run these commands:
 
 ```bash
 git add -A
-git commit -m "feat: implement Kiosk TUI with Spectre.Console"
+git commit -m "feat(phase-5): implement Kiosk TUI with Spectre.Console"
 ```
 
 Then update `work/002-system-build/README.md` — change Phase 5 status from "Not started" to "Complete".

@@ -1,6 +1,6 @@
 # Phase 6: Kitchen Display
 
-Build the staff-facing kitchen order display with HTTP polling. Code in `src/CompileAndSip.KitchenDisplay/`, tests in `tests/CompileAndSip.KitchenDisplay.Tests/`.
+Build the staff-facing kitchen order display with HTTP polling. Code in `src/CompileAndSip.KitchenDisplay/`, tests in `src/tests/CompileAndSip.KitchenDisplay.Tests/`.
 
 ## Read first
 
@@ -10,7 +10,6 @@ Build the staff-facing kitchen order display with HTTP polling. Code in `src/Com
 - `docs/business/scenarios/SCN-005-kitchen-marks-order-complete.md` — mark complete behaviour
 - `docs/standards/engineering/coding-conventions.md` — DI, interface patterns
 - `docs/standards/engineering/api-design.md` — endpoints (GET /orders/active, POST /orders/{id}/complete)
-- `docs/standards/delivery/local-development.md` — Aspire service discovery pattern
 
 ## How it works
 
@@ -20,15 +19,22 @@ Poll (GET /orders/active every 2-3s) → Render table → Staff keypresses to co
 
 ## Steps
 
-### 1. API client — separate from rendering
+### 1. DTOs — the Kitchen Display's own API contract types
+
+Create `src/CompileAndSip.KitchenDisplay/Dtos.cs` with response types matching the Order API contract:
+- `ActiveOrderDto` — order id, order number, drink details, customisation, price, created time
+
+These are local copies of the API contract. The Kitchen Display does NOT reference the OrderApi project.
+
+### 2. API client — separate from rendering
 
 Create `IOrderApiClient` interface:
 - `Task<List<ActiveOrderDto>> GetActiveOrdersAsync()`
 - `Task<bool> MarkOrderCompleteAsync(Guid orderId)`
 
-Create `OrderApiClient` implementation using `HttpClient`. Base address from Aspire service discovery (`https+http://order-api`).
+Create `OrderApiClient` implementation using `HttpClient`. Base address from configuration.
 
-### 2. Display rendering
+### 3. Display rendering
 
 Use Spectre.Console to render a table of active orders:
 - Header: "Kitchen Display — Compile & Sip"
@@ -40,28 +46,37 @@ Edge cases:
 - No orders → "No active orders — waiting for new orders..."
 - API unreachable → "Unable to reach Order API — retrying..."
 
-### 3. Polling loop
+### 4. Polling loop
 
 - Poll `GET /orders/active` every 2–3 seconds (per ADR-0003)
 - Refresh display on each cycle
 - Handle API errors gracefully (show message, keep polling)
 
-### 4. Mark complete
+### 5. Mark complete
 
 - Single keypress to select and complete an order (per SCN-005 — "single action")
 - On completion: show brief "Order #XX marked complete!" message
 - Display refreshes on next poll cycle
 
-### 5. Program.cs
+### 6. Program.cs
 
 Wire up with `Host.CreateApplicationBuilder(args)`:
-- Call `builder.AddServiceDefaults()`
-- Register `HttpClient` for `IOrderApiClient` with base address `https+http://order-api`
+- Register `HttpClient` for `IOrderApiClient` with base address from configuration key `OrderApi:BaseUrl` (default: `http://localhost:5100`)
 - Build host, resolve services, start the polling/display loop
 
-### 6. Tests
+Create `src/CompileAndSip.KitchenDisplay/appsettings.json`:
 
-Test service/polling logic, NOT Spectre.Console rendering. In `tests/CompileAndSip.KitchenDisplay.Tests/`:
+```json
+{
+  "OrderApi": {
+    "BaseUrl": "http://localhost:5100"
+  }
+}
+```
+
+### 7. Tests
+
+Test service/polling logic, NOT Spectre.Console rendering. In `src/tests/CompileAndSip.KitchenDisplay.Tests/`:
 
 | Test | Expected |
 |------|----------|
@@ -75,9 +90,11 @@ Use a mock HTTP handler or similar technique to test the API client without a ru
 ## Verification
 
 ```bash
+cd src
 dotnet test tests/CompileAndSip.KitchenDisplay.Tests --verbosity normal
 dotnet build
 dotnet test
+cd ..
 ```
 
 ## Commit — do this now before moving on
@@ -86,7 +103,7 @@ You MUST commit before proceeding to the next phase. Run these commands:
 
 ```bash
 git add -A
-git commit -m "feat: implement Kitchen Display with polling and Spectre.Console"
+git commit -m "feat(phase-6): implement Kitchen Display with polling"
 ```
 
 Then update `work/002-system-build/README.md` — change Phase 6 status from "Not started" to "Complete".

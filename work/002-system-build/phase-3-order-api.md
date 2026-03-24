@@ -1,6 +1,6 @@
 # Phase 3: Order API (TDD)
 
-Implement the ASP.NET Core Minimal API with in-memory storage and simulated payment — all test-first. Code in `src/CompileAndSip.OrderApi/`, tests in `tests/CompileAndSip.OrderApi.Tests/`.
+Implement the ASP.NET Core Minimal API with in-memory storage and simulated payment — all test-first. Code in `src/CompileAndSip.OrderApi/`, tests in `src/tests/CompileAndSip.OrderApi.Tests/`.
 
 ## Read first
 
@@ -38,7 +38,7 @@ TDD workflow: write failing integration test (HttpClient via WebApplicationFacto
 
 ### 1. FakePaymentGateway
 
-Implements `IPaymentGateway` from Domain. Lives in the OrderApi project.
+Implements `IPaymentGateway` (created in Phase 2). Lives in the `src/CompileAndSip.OrderApi/` project.
 
 - Default behaviour: always succeeds
 - `ConfigureNextResult(PaymentResult)` — lets tests set the next payment outcome
@@ -65,7 +65,7 @@ Implementation: `ConcurrentDictionary<Guid, Order>`, `Interlocked.Increment` for
 | `GetActiveOrders_ReturnsPaidOnly` | Excludes Created and Complete |
 | `NextOrderNumber_IsSequential` | 1, 2, 3... |
 
-### 3. DTOs (in OrderApi project, not Domain)
+### 3. DTOs (in the OrderApi project)
 
 - `OrderRequest` — `string DrinkId`, `DrinkCustomisationDto` (milk, toppings, sugar, ice, temperature)
 - `OrderResponse` — `Guid Id`, `int OrderNumber`, `decimal TotalPrice`
@@ -77,9 +77,10 @@ Map between DTOs and domain types in the API layer.
 
 ### 4. DI registration and Program.cs
 
+Update `src/CompileAndSip.OrderApi/Program.cs`:
 - `IPaymentGateway` → `FakePaymentGateway` (register as singleton, also register concrete type for test access)
 - `IOrderStore` → `InMemoryOrderStore` (singleton)
-- Ensure `Program` class is accessible to test projects (add `public partial class Program { }` at bottom of Program.cs if not already there)
+- Ensure `public partial class Program { }` at bottom for test access
 
 ### 5. Implement endpoints
 
@@ -119,17 +120,17 @@ Capture the API conventions as a standard for consistency.
 - Status codes: 200 success, 201 created, 400 validation error, 402 payment declined, 404 not found, 503 gateway unavailable
 - Error shape: `{ "error": "<message>" }` — consistent JSON object, not a bare string
 - JSON only — no XML, no content negotiation
-- DTOs in the API project, not in Domain — Domain types are internal, DTOs are the HTTP contract
+- DTOs are the HTTP contract — domain types are internal to the OrderApi project
 - Handlers are thin — delegate to domain services for business logic
 
 ## Verification
 
 ```bash
+cd src
 dotnet test tests/CompileAndSip.OrderApi.Tests --verbosity normal
-# Expect ~15-20 tests, all passing
-dotnet test tests/CompileAndSip.Domain.Tests --verbosity normal
-# Domain tests still pass (no regressions)
+# Expect ~20+ tests (domain + API), all passing
 dotnet build
+cd ..
 find docs/standards -name '*.md' | wc -l   # Should be 7 files
 ```
 
@@ -139,7 +140,7 @@ You MUST commit before proceeding to the next phase. Run these commands:
 
 ```bash
 git add -A
-git commit -m "feat: implement Order API with TDD and API design standard"
+git commit -m "feat(phase-3): implement Order API endpoints with TDD"
 ```
 
 Then update `work/002-system-build/README.md` — change Phase 3 status from "Not started" to "Complete".
