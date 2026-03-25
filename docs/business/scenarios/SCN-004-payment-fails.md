@@ -28,6 +28,6 @@ This is an edge case but important for resilience. The kiosk should not appear b
 
 ## Verification
 
-BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-004-payment-fails.feature`
+Feature file: [`SCN-004-payment-fails.feature`](../../../src/tests/CompileAndSip.Bdd.Tests/Features/SCN-004-payment-fails.feature)
 
-Current status: [BDD verification status](../verification/bdd-status.md)
+Latest result: [SCN-004 verification status](../verification/bdd-status.md#scn-004--payment-fails)

@@ -18,6 +18,6 @@ The kitchen display shows orders in the sequence they were received. Each order 
 
 ## Verification
 
-BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-005-kitchen-marks-order-complete.feature`
+Feature file: [`SCN-005-kitchen-marks-order-complete.feature`](../../../src/tests/CompileAndSip.Bdd.Tests/Features/SCN-005-kitchen-marks-order-complete.feature)
 
-Current status: [BDD verification status](../verification/bdd-status.md)
+Latest result: [SCN-005 verification status](../verification/bdd-status.md#scn-005--kitchen-marks-order-complete)

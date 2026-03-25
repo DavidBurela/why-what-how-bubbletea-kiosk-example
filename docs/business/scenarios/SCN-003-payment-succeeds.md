@@ -18,6 +18,6 @@ The order number is a simple sequential number for the day. The confirmation scr
 
 ## Verification
 
-BDD test: `src/tests/CompileAndSip.Bdd.Tests/Features/SCN-003-payment-succeeds.feature`
+Feature file: [`SCN-003-payment-succeeds.feature`](../../../src/tests/CompileAndSip.Bdd.Tests/Features/SCN-003-payment-succeeds.feature)
 
-Current status: [BDD verification status](../verification/bdd-status.md)
+Latest result: [SCN-003 verification status](../verification/bdd-status.md#scn-003--payment-succeeds)

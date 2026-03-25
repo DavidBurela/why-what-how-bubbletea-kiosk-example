@@ -55,21 +55,30 @@ grep -oP 'UnitTest[^>]*id="\K[^"]+' "$TRX_FILE" > "$TEMP_DIR/test_ids.txt"
 grep -oP 'className="[^"]*\.(\w+Feature)"' "$TRX_FILE" | grep -oP '\w+Feature' > "$TEMP_DIR/class_names.txt"
 paste "$TEMP_DIR/test_ids.txt" "$TEMP_DIR/class_names.txt" > "$TEMP_DIR/id_class_map.txt"
 
-# Extract testId->outcome from UnitTestResult elements
+# Extract testId->outcome and testId->testName from UnitTestResult elements
 grep -oP 'UnitTestResult[^>]*testId="\K[^"]+' "$TRX_FILE" > "$TEMP_DIR/result_ids.txt"
 grep -oP 'UnitTestResult[^>]*outcome="\K[^"]+' "$TRX_FILE" > "$TEMP_DIR/outcomes.txt"
+grep -oP 'UnitTestResult[^>]*testName="\K[^"]+' "$TRX_FILE" > "$TEMP_DIR/test_names.txt"
 paste "$TEMP_DIR/result_ids.txt" "$TEMP_DIR/outcomes.txt" > "$TEMP_DIR/id_outcome_map.txt"
+paste "$TEMP_DIR/result_ids.txt" "$TEMP_DIR/test_names.txt" > "$TEMP_DIR/id_name_map.txt"
 
-# Join on testId and count per class
+# Join on testId and count per class; collect per-test details
 declare -A CLASS_PASSED CLASS_FAILED CLASS_TOTAL
+declare -A CLASS_TESTS
 while IFS=$'\t' read -r test_id class_name; do
   outcome=$(grep "^${test_id}" "$TEMP_DIR/id_outcome_map.txt" | cut -f2)
+  test_name=$(grep "^${test_id}" "$TEMP_DIR/id_name_map.txt" | cut -f2)
   CLASS_TOTAL[$class_name]=$(( ${CLASS_TOTAL[$class_name]:-0} + 1 ))
   if [[ "$outcome" == "Passed" ]]; then
     CLASS_PASSED[$class_name]=$(( ${CLASS_PASSED[$class_name]:-0} + 1 ))
+    icon="✅"
   elif [[ "$outcome" == "Failed" ]]; then
     CLASS_FAILED[$class_name]=$(( ${CLASS_FAILED[$class_name]:-0} + 1 ))
+    icon="❌"
+  else
+    icon="⚠️"
   fi
+  CLASS_TESTS[$class_name]+="| ${icon} ${outcome} | ${test_name} |\n"
 done < "$TEMP_DIR/id_class_map.txt"
 
 # Scenario mapping: class suffix -> SCN ID, name, feature file
@@ -135,6 +144,17 @@ SCN_FILE[KitchenMarksOrderCompleteFeature]="SCN-005-kitchen-marks-order-complete
   done
 
   echo ""
+  echo "## Individual Test Results"
+  echo ""
+
+  for class in BrowseMenuAndSelectDrinkFeature CustomiseDrinkFeature PaymentSucceedsFeature PaymentFailsFeature KitchenMarksOrderCompleteFeature; do
+    echo "### ${SCN_ID[$class]} — ${SCN_NAME[$class]}"
+    echo ""
+    echo "| Status | Test |"
+    echo "|--------|------|"
+    echo -e "${CLASS_TESTS[$class]:-}"
+  done
+
   echo "## Detailed Report"
   echo ""
   echo "For a richer interactive view, open [bdd-results.html](bdd-results.html) in a browser."
